@@ -1,6 +1,7 @@
 flowchart TD
     dandi_json["<a href='https://github.com/dandi/schema'>dandi/schema</a><br/>(JSON Schema models)<br/>for each model release"]@{ shape: docs }
     dandi_cli["<a href='https://github.com/dandi/dandi-cli'>dandi-cli</a><br/>Python client library and CLI"]
+    meditor_input["User input through meditor"]@{ shape: manual-input }
 
     subgraph "<a href=''>dandi/dandischema</a>"
         %% nodes
@@ -13,13 +14,12 @@ flowchart TD
     end
 
     subgraph "<a href=''>dandi/dandi-archive</a>"
+        %% nodes
         dandi_archive_db[(PostgresDB)]
         dandi_archive_backend["<a href='https://api.dandiarchive.org'>api.dandiarchive.org</a><br/>Backend/API"]
         dandi_archive_frontend["<a href='https://www.dandiarchive.org'>www.dandiarchive.org</a><br/>Frontend/Web UI"]
         %% user_input_data["User input data"]@{ shape: manual-input }
         meditor[[vjsf-based<br/>Web UI meditor]]
-        meditor_input["User input through meditor"]@{ shape: manual-input }
-
         dandi_archive_validate[/Celery task to validate<br/>dandiset and assets metadata/]
     end
 
