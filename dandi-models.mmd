@@ -1,27 +1,19 @@
 flowchart TD
-    dandi_pydantic["<a href='https://github.com/dandi/dandi-schema/blob/master/dandischema/models.py'>dandi/dandischema::models.py</a>
-                   (Pydantic models)"]
-    dandi_validate["<a href='https://github.com/dandi/dandi-schema/blob/c3007768e002c9f51ea37b5e6b3628f7f7f20943/dandischema/metadata.py#L195'>dandi/dandischema::validate()</a>
-                   (Validation helper)"]
-    dandi_json["<a href='https://github.com/dandi/schema'>dandi/schema</a>
-               (JSON Schema models)
+    dandi_pydantic["<a href='https://github.com/dandi/dandi-schema/blob/master/dandischema/models.py'>dandi/dandischema::models.py</a><br/>(Pydantic models)"]
+    dandi_validate["<a href='https://github.com/dandi/dandi-schema/blob/c3007768e002c9f51ea37b5e6b3628f7f7f20943/dandischema/metadata.py#L195'>dandi/dandischema::validate()</a><br/>(Validation helper)"]
+    dandi_json["<a href='https://github.com/dandi/schema'>dandi/schema</a><br/>(JSON Schema models)
                for each model release"]@{ shape: docs }
-    dandi_cli["<a href='https://github.com/dandi/dandi-cli'>dandi-cli</a>
-              Python client library and CLI"]
+    dandi_cli["<a href='https://github.com/dandi/dandi-cli'>dandi-cli</a><br/>Python client library and CLI"]
 
     subgraph "<a href=''>dandi/dandi-archive</a>"
         dandi_archive_db[(PostgresDB)]
-        dandi_archive_backend["<a href='https://api.dandiarchive.org'>api.dandiarchive.org</a>
-                            Backend/API"]
-        dandi_archive_frontend["<a href='https://www.dandiarchive.org'>www.dandiarchive.org</a>
-                            Frontend/Web UI"]
+        dandi_archive_backend["<a href='https://api.dandiarchive.org'>api.dandiarchive.org</a><br/>Backend/API"]
+        dandi_archive_frontend["<a href='https://www.dandiarchive.org'>www.dandiarchive.org</a><br/>Frontend/Web UI"]
         %% user_input_data["User input data"]@{ shape: manual-input }
-        meditor[[vjsf-based
-            Web UI meditor]]
+        meditor[[vjsf-based<br/>Web UI meditor]]
         meditor_input["User input through meditor"]@{ shape: manual-input }
 
-        dandi_archive_validate[/Celery task to validate
-            dandiset and assets metadata/]
+        dandi_archive_validate[/Celery task to validate<br/>dandiset and assets metadata/]
     end
 
     dandi_pydantic -->|<a href="https://github.com/dandi/dandi-schema/blob/master/.github/workflows/release.yml">GitHub CI</a>:
@@ -51,8 +43,7 @@ flowchart TD
     %% datasets[NWB/BIDS]
     %% user_input_data --> |Expressed as| datasets
     %%  datasets --> |Extracts metadata by| dandi_cli
-    dandi_cli --> |Extracts and uploads
-        metadata for assets| dandi_archive_backend
+    dandi_cli --> |Extracts and uploads<br/>metadata for assets| dandi_archive_backend
     %% We always upload Asset pyndatic model, but it might be minimally
     %% populated if there was an error while extracting metadata
 
