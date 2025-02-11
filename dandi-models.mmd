@@ -32,7 +32,7 @@ flowchart TD
     subgraph "<a href=''>dandi/dandischema</a>"
         dandi_pydantic
         dandi_validate
-        dandi_pydantic -->|Used for current version| dandi_pydantic_runtime[JSON Schema model]@{ shape: doc } --> dandi_validate
+        dandi_pydantic -->|Used for generating| dandi_json_runtime[Latest JSON Schema models]@{ shape: doc } --> dandi_validate
     end
 
     dandi_pydantic -->|Used by| dandi_cli
