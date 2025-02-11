@@ -1,9 +1,17 @@
 flowchart TD
-    dandi_pydantic["<a href='https://github.com/dandi/dandi-schema/blob/master/dandischema/models.py'>dandi/dandischema::models.py</a><br/>(Pydantic models)"]
-    dandi_validate["<a href='https://github.com/dandi/dandi-schema/blob/c3007768e002c9f51ea37b5e6b3628f7f7f20943/dandischema/metadata.py#L195'>dandi/dandischema::validate()</a><br/>(Validation helper)"]
     dandi_json["<a href='https://github.com/dandi/schema'>dandi/schema</a><br/>(JSON Schema models)
                for each model release"]@{ shape: docs }
     dandi_cli["<a href='https://github.com/dandi/dandi-cli'>dandi-cli</a><br/>Python client library and CLI"]
+
+    subgraph "<a href=''>dandi/dandischema</a>"
+        %% nodes
+        dandi_pydantic["<a href='https://github.com/dandi/dandi-schema/blob/master/dandischema/models.py'>dandi/dandischema::models.py</a><br/>(Pydantic models)"]
+        dandi_validate["<a href='https://github.com/dandi/dandi-schema/blob/c3007768e002c9f51ea37b5e6b3628f7f7f20943/dandischema/metadata.py#L195'>dandi/dandischema::validate()</a><br/>(Validation helper)"]
+        dandi_json_runtime[Latest JSON Schema models]@{ shape: doc }
+
+        %% edges
+        dandi_pydantic -->|Used for generating| dandi_json_runtime --> dandi_validate
+    end
 
     subgraph "<a href=''>dandi/dandi-archive</a>"
         dandi_archive_db[(PostgresDB)]
@@ -20,12 +28,6 @@ flowchart TD
                        Generates JSON schemas per model release| dandi_json
 
     %% dandi/dandischema does use JSON schema models during validation
-
-    subgraph "<a href=''>dandi/dandischema</a>"
-        dandi_pydantic
-        dandi_validate
-        dandi_pydantic -->|Used for generating| dandi_json_runtime[Latest JSON Schema models]@{ shape: doc } --> dandi_validate
-    end
 
     dandi_pydantic -->|Used by| dandi_cli
     dandi_pydantic -->|Used by| dandi_validate
