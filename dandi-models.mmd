@@ -1,5 +1,4 @@
 flowchart TD
-    dandi_schema_repo("<a href='TODO'>dandi/dandischema</a>")
     dandi_pydantic["<a href='TODO'>dandi/dandischema::models.py</a>
                    (Pydantic models)"]
     dandi_validate["<a href='TODO'>dandi/dandischema::validate()</a>
@@ -10,31 +9,32 @@ flowchart TD
     dandi_cli["<a href='TODO'>dandi-cli</a>
               Python client library and CLI"]
 
-    dandi_archive_repo("<a href='TODO'>dandi/dandi-archive</a>
-        Django + Vue")
-    dandi_archive_backend["<a href='https://api.dandiarchive.org'>api.dandiarchive.org</a>
-                          Backend/API"]
-    dandi_archive_db[(PostgresDB)]
-    dandi_archive_frontend["<a href='https://www.dandiarchive.org'>www.dandiarchive.org</a>
-                           Frontend/Web UI"]
-    %% user_input_data["User input data"]@{ shape: manual-input }
-    meditor[[vjsf-based
-        Web UI meditor]]
-    meditor_input["User input through meditor"]@{ shape: manual-input }
+    subgraph "<a href=''>dandi/dandi-archive</a>"
+        dandi_archive_db[(PostgresDB)]
+        dandi_archive_backend["<a href='https://api.dandiarchive.org'>api.dandiarchive.org</a>
+                            Backend/API"]
+        dandi_archive_frontend["<a href='https://www.dandiarchive.org'>www.dandiarchive.org</a>
+                            Frontend/Web UI"]
+        %% user_input_data["User input data"]@{ shape: manual-input }
+        meditor[[vjsf-based
+            Web UI meditor]]
+        meditor_input["User input through meditor"]@{ shape: manual-input }
 
-    dandi_archive_validate[/Celery task to validate
-        dandiset and assets metadata/]
-
+        dandi_archive_validate[/Celery task to validate
+            dandiset and assets metadata/]
+    end
 
     dandi_pydantic -->|<a href="https://github.com/dandi/dandi-schema/blob/master/.github/workflows/release.yml">GitHub CI</a>:
                        Generates JSON schemas per model release| dandi_json
 
     %%% dandi/dandischema does use JSON schema models during validation
     %%
-    dandi_pydantic -->|Used for current version| dandi_pydantic_runtime[JSON Schema model]@{ shape: doc } --> dandi_validate
 
-    dandi_schema_repo -.-> dandi_pydantic
-    dandi_schema_repo -.-> dandi_validate
+    subgraph "<a href=''>dandi/dandischema</a>"
+        dandi_pydantic
+        dandi_validate
+        dandi_pydantic -->|Used for current version| dandi_pydantic_runtime[JSON Schema model]@{ shape: doc } --> dandi_validate
+    end
 
     dandi_pydantic -->|Used by| dandi_cli
     dandi_pydantic -->|Used by| dandi_validate
@@ -56,9 +56,6 @@ flowchart TD
         metadata for assets| dandi_archive_backend
     %% We always upload Asset pyndatic model, but it might be minimally
     %% populated if there was an error while extracting metadata
-
-    dandi_archive_repo -.-> |Implements| dandi_archive_frontend
-    dandi_archive_repo -.-> |Implements| dandi_archive_backend
 
     dandi_archive_frontend --> |Generates Meditor| meditor
     meditor_input --> | Restricted by| meditor
