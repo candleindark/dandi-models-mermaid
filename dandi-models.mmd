@@ -10,7 +10,7 @@ flowchart TD
         dandi_json_runtime[Latest JSON Schema models]@{ shape: doc }
 
         %% edges
-        dandi_pydantic -->|Used for generating| dandi_json_runtime --> dandi_validate
+        dandi_pydantic -->|Used for generating| dandi_json_runtime -->|Used by| dandi_validate
     end
 
     subgraph "<a href=''>dandi/dandi-archive</a>"
@@ -30,7 +30,7 @@ flowchart TD
 
     dandi_pydantic -->|Used by| dandi_cli
     dandi_pydantic -->|Used by| dandi_validate
-    dandi_json -->|Used for other versions| dandi_validate
+    dandi_json -->|"Used by (for any versions)"| dandi_validate
 
     dandi_archive_backend --> |Schedule| dandi_archive_validate
     dandi_archive_backend <--->  dandi_archive_db
