@@ -1,6 +1,7 @@
 flowchart TD
     dandi_json["<a href='https://github.com/dandi/schema'>dandi/schema</a><br/>(JSON Schema models)<br/>for each model release"]@{ shape: docs }
     dandi_cli["<a href='https://github.com/dandi/dandi-cli'>dandi-cli</a><br/>Python client library and CLI"]
+    ci[<a href='https://github.com/dandi/dandi-schema/blob/master/.github/workflows/release.yml'>GitHub CI</a>]
     web_input["User input through web UI"]@{ shape: manual-input }
 
     subgraph "<a href=''>dandi/dandischema</a>"
@@ -23,8 +24,7 @@ flowchart TD
         dandi_archive_validate[/Celery task to validate<br/>dandiset and assets metadata/]
     end
 
-    dandi_pydantic -->|<a href="https://github.com/dandi/dandi-schema/blob/master/.github/workflows/release.yml">GitHub CI</a>:
-                       Generates JSON schemas per model release| dandi_json
+    dandi_pydantic -->|Used by| ci -->|Generates<br/> JSON Schema models<br/> per model release| dandi_json
 
     %% dandi/dandischema does use JSON schema models during validation
 
