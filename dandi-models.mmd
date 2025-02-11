@@ -32,7 +32,7 @@ flowchart TD
     dandi_pydantic -->|Used by| dandi_validate
     dandi_json -->|"Used by (for any versions)"| dandi_validate
 
-    dandi_archive_backend --> |Schedule| dandi_archive_validate
+    dandi_archive_backend --> |Schedules| dandi_archive_validate
     dandi_archive_backend <--->  dandi_archive_db
     dandi_validate -->|Used by| dandi_archive_validate
     %%?? dandi_validate -->|Used by| dandi_cli
@@ -50,6 +50,6 @@ flowchart TD
 
     dandi_archive_frontend --> |Generates Meditor| meditor
     web_input --> | Restricted by| meditor
-    meditor --> |Stored| dandi_archive_backend
+    meditor --> |Stores user inputs through| dandi_archive_backend
 
-    dandi_archive_validate --> |Record validation status| dandi_archive_db
+    dandi_archive_validate --> |Records validation status| dandi_archive_db
