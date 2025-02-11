@@ -1,7 +1,7 @@
 flowchart TD
     dandi_json["<a href='https://github.com/dandi/schema'>dandi/schema</a><br/>(JSON Schema models)<br/>for each model release"]@{ shape: docs }
     dandi_cli["<a href='https://github.com/dandi/dandi-cli'>dandi-cli</a><br/>Python client library and CLI"]
-    meditor_input["User input through meditor"]@{ shape: manual-input }
+    web_input["User input through web UI"]@{ shape: manual-input }
 
     subgraph "<a href=''>dandi/dandischema</a>"
         %% nodes
@@ -49,7 +49,7 @@ flowchart TD
     %% populated if there was an error while extracting metadata
 
     dandi_archive_frontend --> |Generates Meditor| meditor
-    meditor_input --> | Restricted by| meditor
+    web_input --> | Restricted by| meditor
     meditor --> |Stored| dandi_archive_backend
 
     dandi_archive_validate --> |Record validation status| dandi_archive_db
