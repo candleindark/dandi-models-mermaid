@@ -48,7 +48,7 @@ flowchart TD
     %% We always upload Asset pyndatic model, but it might be minimally
     %% populated if there was an error while extracting metadata
 
-    dandi_archive_frontend --> |Generates Meditor| meditor
+    dandi_archive_frontend --> |Generates| meditor
     web_input --> | Restricted by| meditor
     meditor --> |Stores user inputs through| dandi_archive_backend
 
