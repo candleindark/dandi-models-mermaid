@@ -15,10 +15,16 @@ flowchart TD
         meditor["Meditor<br>(vjsf-based web form)"]
         dandi_archive_validate[/"Celery task to validate<br>dandiset and asset metadata"/]
   end
-    dandi_pydantic -- Used by --> dandi_cli@{ label: "<a href=\"https://github.com/dandi/dandi-cli\">dandi-cli</a><br>(Python client lib and CLI)" } & dandi_validate & ci@{ label: "<a href=\"https://github.com/dandi/dandi-schema/blob/master/.github/workflows/release.yml\">GitHub CI</a>" }
+    %% nodes
+    dandi_cli@{ label: "<a href=\"https://github.com/dandi/dandi-cli\">dandi-cli</a><br>(Python client lib and CLI)" }
+    ci@{ label: "<a href=\"https://github.com/dandi/dandi-schema/blob/master/.github/workflows/release.yml\">GitHub CI</a>" }
+    dandi_json@{ label: "<a href=\"https://github.com/dandi/schema\">dandi/schema</a><br>(Versions of JSON Schema models)" }
+
+    %% edges
+    dandi_pydantic -- Used by --> dandi_cli & dandi_validate & ci
     dandi_pydantic -- Used for generating --> dandi_json_runtime
     dandi_json_runtime -- Used by --> dandi_validate
-    ci -- Generates<br> JSON Schema models<br> per model release --> dandi_json@{ label: "<a href=\"https://github.com/dandi/schema\">dandi/schema</a><br>(Versions of JSON Schema models)" }
+    ci -- Generates<br> JSON Schema models<br> per model release --> dandi_json
     dandi_json -- Used by (for any versions) --> dandi_validate
     dandi_json -- Used by --> dandi_archive_frontend
     dandi_validate -- Used by --> dandi_archive_validate
@@ -29,6 +35,8 @@ flowchart TD
     web_input["User input through web form"] -- Restricted by --> meditor
     meditor -- Stores user inputs through --> dandi_archive_backend
     dandi_archive_validate -- Records validation status --> dandi_archive_db
+
+    %% styles
     dandi_json@{ shape: docs}
     dandi_cli@{ shape: rect}
     ci@{ shape: rect}
