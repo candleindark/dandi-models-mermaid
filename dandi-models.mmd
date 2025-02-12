@@ -19,14 +19,13 @@ flowchart TD
         dandi_archive_db[(PostgresDB)]
         dandi_archive_backend["<a href='https://api.dandiarchive.org'>api.dandiarchive.org</a><br/>(Backend/API)"]
         dandi_archive_frontend["<a href='https://www.dandiarchive.org'>www.dandiarchive.org</a><br/>(Frontend/Web UI)"]
-        %% user_input_data["User input data"]@{ shape: manual-input }
         meditor["Meditor<br/>(vjsf-based web form)"]
         dandi_archive_validate[/Celery task to validate<br/>dandiset and asset metadata/]
     end
 
     dandi_pydantic -->|Used by| ci -->|Generates<br/> JSON Schema models<br/> per model release| dandi_json
 
-    %% dandi/dandischema does use JSON schema models during validation
+
 
     dandi_pydantic -->|Used by| dandi_cli
     dandi_pydantic -->|Used by| dandi_validate
@@ -35,18 +34,11 @@ flowchart TD
     dandi_archive_backend --> |Schedules| dandi_archive_validate
     dandi_archive_backend <--->  dandi_archive_db
     dandi_validate -->|Used by| dandi_archive_validate
-    %%?? dandi_validate -->|Used by| dandi_cli
 
-    %% dandi_json -->|Used by| dandi_archive_backend
     dandi_json -->|Used by| dandi_archive_frontend
 
-
-    %% datasets[NWB/BIDS]
-    %% user_input_data --> |Expressed as| datasets
-    %%  datasets --> |Extracts metadata by| dandi_cli
     dandi_cli --> |Extracts and uploads<br/>metadata for assets| dandi_archive_backend
-    %% We always upload Asset pyndatic model, but it might be minimally
-    %% populated if there was an error while extracting metadata
+
 
     dandi_archive_frontend --> |Generates| meditor
     web_input --> | Restricted by| meditor
