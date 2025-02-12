@@ -4,7 +4,7 @@ flowchart TD
     ci[<a href='https://github.com/dandi/dandi-schema/blob/master/.github/workflows/release.yml'>GitHub CI</a>]
     web_input["User input through web UI"]@{ shape: manual-input }
 
-    subgraph "<a href=''>dandi/dandischema</a>"
+    subgraph "<a href='https://github.com/dandi/dandi-schema'>dandi/dandischema</a>"
         %% nodes
         dandi_pydantic["<a href='https://github.com/dandi/dandi-schema/blob/master/dandischema/models.py'>dandi/dandischema::models.py</a><br/>(Pydantic models)"]
         dandi_validate["<a href='https://github.com/dandi/dandi-schema/blob/c3007768e002c9f51ea37b5e6b3628f7f7f20943/dandischema/metadata.py#L195'>dandi/dandischema::validate()</a><br/>(Validation helper)"]
@@ -14,7 +14,7 @@ flowchart TD
         dandi_pydantic -->|Used for generating| dandi_json_runtime -->|Used by| dandi_validate
     end
 
-    subgraph "<a href=''>dandi/dandi-archive</a>"
+    subgraph "<a href='https://github.com/dandi/dandi-archive'>dandi/dandi-archive</a>"
         %% nodes
         dandi_archive_db[(PostgresDB)]
         dandi_archive_backend["<a href='https://api.dandiarchive.org'>api.dandiarchive.org</a><br/>(Backend/API)"]
