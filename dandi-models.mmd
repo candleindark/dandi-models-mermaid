@@ -1,44 +1,40 @@
+---
+config:
+  layout: dagre
+---
 flowchart TD
-    %% nodes
-    dandi_json["<a href='https://github.com/dandi/schema'>dandi/schema</a><br/>(Versions of JSON Schema models)"]@{ shape: docs }
-    dandi_cli["<a href='https://github.com/dandi/dandi-cli'>dandi-cli</a><br/>(Python client lib and CLI)"]
-    ci[<a href='https://github.com/dandi/dandi-schema/blob/master/.github/workflows/release.yml'>GitHub CI</a>]
-    web_input["User input through web form"]@{ shape: manual-input }
-
-    subgraph "<a href='https://github.com/dandi/dandi-schema'>dandi/dandischema</a>"
-        %% nodes
-        dandi_pydantic["<a href='https://github.com/dandi/dandi-schema/blob/master/dandischema/models.py'>dandi/dandischema::models.py</a><br/>(Pydantic models)"]
-        dandi_validate["<a href='https://github.com/dandi/dandi-schema/blob/c3007768e002c9f51ea37b5e6b3628f7f7f20943/dandischema/metadata.py#L195'>dandi/dandischema::validate()</a><br/>(Validation helper)"]
-        dandi_json_runtime[Latest JSON Schema models]@{ shape: doc }
-    end
-
-    subgraph "<a href='https://github.com/dandi/dandi-archive'>dandi/dandi-archive</a>"
-        %% nodes
-        dandi_archive_db[(PostgresDB)]
-        dandi_archive_backend["<a href='https://api.dandiarchive.org'>api.dandiarchive.org</a><br/>(Backend/API)"]
-        dandi_archive_frontend["<a href='https://www.dandiarchive.org'>www.dandiarchive.org</a><br/>(Frontend/Web UI)"]
-        meditor["Meditor<br/>(vjsf-based web form)"]
-        dandi_archive_validate[/Celery task to validate<br/>dandiset and asset metadata/]
-    end
-
-    %% --- edges ---
-    dandi_pydantic -->|Used by| dandi_cli
-    dandi_pydantic -->|Used for generating| dandi_json_runtime -->|Used by| dandi_validate
-    dandi_pydantic -->|Used by| dandi_validate
-    dandi_pydantic -->|Used by| ci -->|Generates<br/> JSON Schema models<br/> per model release| dandi_json
-
-    dandi_json -->|"Used by (for any versions)"| dandi_validate
-    dandi_json -->|Used by| dandi_archive_frontend
-
-    dandi_validate -->|Used by| dandi_archive_validate
-
-    dandi_archive_backend --> |Schedules| dandi_archive_validate
-    dandi_archive_backend <--->  dandi_archive_db
-
-    dandi_cli --> |Extracts and uploads<br/>metadata for assets| dandi_archive_backend
-
-    dandi_archive_frontend --> |Generates| meditor
-    web_input --> | Restricted by| meditor
-    meditor --> |Stores user inputs through| dandi_archive_backend
-    dandi_archive_validate --> |Records validation status| dandi_archive_db
-
+ subgraph subGraph0["<a href=https://github.com/dandi/dandi-schema>dandi/dandischema</a>"]
+        dandi_pydantic@{ label: "<a href=\"https://github.com/dandi/dandi-schema/blob/master/dandischema/models.py\">dandi/dandischema::models.py</a><br>(Pydantic models)" }
+        dandi_validate@{ label: "<a href=\"https://github.com/dandi/dandi-schema/blob/c3007768e002c9f51ea37b5e6b3628f7f7f20943/dandischema/metadata.py#L195\">dandi/dandischema::validate()</a><br>(Validation helper)" }
+        dandi_json_runtime["Latest JSON Schema models"]
+  end
+ subgraph subGraph1["<a href=https://github.com/dandi/dandi-archive>dandi/dandi-archive</a>"]
+        dandi_archive_db[("PostgresDB")]
+        dandi_archive_backend@{ label: "<a href=\"https://api.dandiarchive.org\">api.dandiarchive.org</a><br>(Backend/API)" }
+        dandi_archive_frontend@{ label: "<a href=\"https://www.dandiarchive.org\">www.dandiarchive.org</a><br>(Frontend/Web UI)" }
+        meditor["Meditor<br>(vjsf-based web form)"]
+        dandi_archive_validate[/"Celery task to validate<br>dandiset and asset metadata"/]
+  end
+    dandi_pydantic -- Used by --> dandi_cli@{ label: "<a href=\"https://github.com/dandi/dandi-cli\">dandi-cli</a><br>(Python client lib and CLI)" } & dandi_validate & ci@{ label: "<a href=\"https://github.com/dandi/dandi-schema/blob/master/.github/workflows/release.yml\">GitHub CI</a>" }
+    dandi_pydantic -- Used for generating --> dandi_json_runtime
+    dandi_json_runtime -- Used by --> dandi_validate
+    ci -- Generates<br> JSON Schema models<br> per model release --> dandi_json@{ label: "<a href=\"https://github.com/dandi/schema\">dandi/schema</a><br>(Versions of JSON Schema models)" }
+    dandi_json -- Used by (for any versions) --> dandi_validate
+    dandi_json -- Used by --> dandi_archive_frontend
+    dandi_validate -- Used by --> dandi_archive_validate
+    dandi_archive_backend -- Schedules --> dandi_archive_validate
+    dandi_archive_backend <---> dandi_archive_db
+    dandi_cli -- Extracts and uploads<br>metadata for assets --> dandi_archive_backend
+    dandi_archive_frontend -- Generates --> meditor
+    web_input["User input through web form"] -- Restricted by --> meditor
+    meditor -- Stores user inputs through --> dandi_archive_backend
+    dandi_archive_validate -- Records validation status --> dandi_archive_db
+    dandi_json@{ shape: docs}
+    dandi_cli@{ shape: rect}
+    ci@{ shape: rect}
+    web_input@{ shape: manual-input}
+    dandi_pydantic@{ shape: rect}
+    dandi_validate@{ shape: rect}
+    dandi_json_runtime@{ shape: doc}
+    dandi_archive_backend@{ shape: rect}
+    dandi_archive_frontend@{ shape: rect}
