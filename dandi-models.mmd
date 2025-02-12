@@ -21,7 +21,7 @@ flowchart TD
         dandi_archive_frontend["<a href='https://www.dandiarchive.org'>www.dandiarchive.org</a><br/>(Frontend/Web UI)"]
         %% user_input_data["User input data"]@{ shape: manual-input }
         meditor["Meditor<br/>(vjsf-based web form)"]
-        dandi_archive_validate[/Celery task to validate<br/>dandiset and assets metadata/]
+        dandi_archive_validate[/Celery task to validate<br/>dandiset and asset metadata/]
     end
 
     dandi_pydantic -->|Used by| ci -->|Generates<br/> JSON Schema models<br/> per model release| dandi_json
