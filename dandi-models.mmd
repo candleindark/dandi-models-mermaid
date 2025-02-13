@@ -3,18 +3,19 @@ config:
   layout: dagre
 ---
 flowchart TD
- subgraph subGraph0["<a href=https://github.com/dandi/dandi-schema>dandi/dandischema</a>"]
+    subgraph subGraph0["<a href=https://github.com/dandi/dandi-schema>dandi/dandischema</a>"]
         dandi_pydantic@{ label: "<a href=\"https://github.com/dandi/dandi-schema/blob/master/dandischema/models.py\">dandi/dandischema::models.py</a><br>(Pydantic models)" }
         dandi_validate@{ label: "<a href=\"https://github.com/dandi/dandi-schema/blob/c3007768e002c9f51ea37b5e6b3628f7f7f20943/dandischema/metadata.py#L195\">dandi/dandischema::validate()</a><br>(Validation helper)" }
         dandi_json_runtime["Latest JSON Schema models"]
-  end
- subgraph subGraph1["<a href=https://github.com/dandi/dandi-archive>dandi/dandi-archive</a>"]
+    end
+    subgraph subGraph1["<a href=https://github.com/dandi/dandi-archive>dandi/dandi-archive</a>"]
         dandi_archive_db[("PostgresDB")]
         dandi_archive_backend@{ label: "<a href=\"https://api.dandiarchive.org\">api.dandiarchive.org</a><br>(Backend/API)" }
         dandi_archive_frontend@{ label: "<a href=\"https://www.dandiarchive.org\">www.dandiarchive.org</a><br>(Frontend/Web UI)" }
         meditor["Meditor<br>(vjsf-based web form)"]
         dandi_archive_validate[/"Celery task to validate<br>dandiset and asset metadata"/]
-  end
+    end
+
     %% nodes
     dandi_cli@{ label: "<a href=\"https://github.com/dandi/dandi-cli\">dandi-cli</a><br>(Python client lib and CLI)" }
     ci@{ label: "<a href=\"https://github.com/dandi/dandi-schema/blob/master/.github/workflows/release.yml\">GitHub CI</a>" }
